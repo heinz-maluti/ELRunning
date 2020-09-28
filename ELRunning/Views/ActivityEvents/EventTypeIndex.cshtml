@@ -1,0 +1,44 @@
+﻿@model IEnumerable<ELRunning.Models.EventType>
+
+@{
+    ViewData["Title"] = "EventTypeIndex";
+}
+
+<h1>EventTypeIndex</h1>
+
+<p>
+    <a asp-action="CreateEventType" class="btn btn-primary">Create New Type</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UnitType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitType)
+            </td>
+            <td>
+                @*
+        <a asp-action="Edit" asp-route-id="@item.EventTypeID">Edit</a> |
+        <a asp-action="Details" asp-route-id="@item.EventTypeID">Details</a> |
+        <a asp-action="Delete" asp-route-id="@item.EventTypeID">Delete</a>
+                *@
+                <a>Huh</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
