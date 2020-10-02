@@ -4,14 +4,16 @@ using ELRunning.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ELRunning.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201001155635_users2")]
+    partial class users2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,10 +27,6 @@ namespace ELRunning.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Distance")
                         .HasColumnType("int");
 
@@ -36,10 +34,9 @@ namespace ELRunning.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EventName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("EventTypeID")
+                    b.Property<Guid?>("EventTypeID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("StartDate")
@@ -339,13 +336,13 @@ namespace ELRunning.Data.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<Guid>("CountryID")
+                    b.Property<Guid?>("CountryID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("GenderID")
+                    b.Property<Guid?>("GenderID")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasIndex("CountryID");
@@ -359,9 +356,7 @@ namespace ELRunning.Data.Migrations
                 {
                     b.HasOne("ELRunning.Models.EventType", "EventType")
                         .WithMany("Events")
-                        .HasForeignKey("EventTypeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EventTypeID");
                 });
 
             modelBuilder.Entity("ELRunning.Models.ActivityLog", b =>
@@ -434,15 +429,11 @@ namespace ELRunning.Data.Migrations
                 {
                     b.HasOne("ELRunning.Models.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CountryID");
 
                     b.HasOne("ELRunning.Models.Gender", "Gender")
                         .WithMany()
-                        .HasForeignKey("GenderID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GenderID");
                 });
 #pragma warning restore 612, 618
         }

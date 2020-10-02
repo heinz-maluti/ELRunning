@@ -14,8 +14,14 @@ a {
 
 .btn-primary {
   color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+  background-color: orange;
+  border-color: darkorange;
+}
+
+.btn-primary:hover {
+        color: #fff;
+        background-color: brown;
+        border-color: orange;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {

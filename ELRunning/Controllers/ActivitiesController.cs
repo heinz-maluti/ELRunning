@@ -7,30 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ELRunning.Data;
 using ELRunning.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace ELRunning.Controllers
 {
-    public class ActivityEventsController : Controller
+    public class ActivitiesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ActivityEventsController(ApplicationDbContext context)
+        public ActivitiesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: ActivityEvents
+        // GET: Activities
         public async Task<IActionResult> Index()
         {
             return View(await _context.ActivityEvents.ToListAsync());
         }
 
-        public async Task<IActionResult> EventTypeIndex()
-        {
-            return View(await _context.EventTypes.ToListAsync());
-        }
-
-        // GET: ActivityEvents/Details/5
+        // GET: Activities/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -40,6 +36,7 @@ namespace ELRunning.Controllers
 
             var activityEvent = await _context.ActivityEvents
                 .FirstOrDefaultAsync(m => m.ActivityEventID == id);
+            activityEvent.EventType = _context.EventTypes.Find(activityEvent.EventTypeID);
             if (activityEvent == null)
             {
                 return NotFound();
@@ -48,53 +45,37 @@ namespace ELRunning.Controllers
             return View(activityEvent);
         }
 
-        // GET: ActivityEvents/Create
+        // GET: Activities/Create
         public IActionResult Create()
         {
-            List<EventType> et = _context.EventTypes.ToList();
-            ViewBag.message = et;
-
+            ViewBag.ddlEventTypes = _context.EventTypes.ToList().OrderBy(x => x.TypeName);
             return View();
         }
 
-        public IActionResult CreateEventType()
-        {
-            return View();
-        }
-
-        // POST: ActivityEvents/Create
+        // POST: Activities/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ActivityEventID,EventName,StartDate,EndDate,Distance,EventType")] ActivityEvent activityEvent)
+        //, Microsoft.AspNetCore.Http.FormCollection fc
+        //[Bind("ActivityEventID,EventName,StartDate,EndDate,Distance,EventType")] 
+        public async Task<IActionResult> Create(IFormCollection fc, ActivityEvent activityEvent) 
         {
             if (ModelState.IsValid)
             {
+                string y = fc["ddlEventType"];
                 activityEvent.ActivityEventID = Guid.NewGuid();
-                activityEvent.EventType = activityEvent.EventType ?? _context.EventTypes.Where(x => x.TypeName == "Running").FirstOrDefault();
+                activityEvent.EventType = _context.EventTypes.Find(new Guid(y));
                 _context.Add(activityEvent);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.ddlEventTypes = _context.EventTypes.ToList().OrderBy(x => x.TypeName);
+
             return View(activityEvent);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateEventType(EventType eventType)
-        {
-            if (ModelState.IsValid)
-            {
-                eventType.EventTypeID = Guid.NewGuid();
-                _context.Add(eventType);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("EventTypeIndex");
-            }
-            return View(eventType);
-        }
-
-        // GET: ActivityEvents/Edit/5
+        // GET: Activities/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -107,15 +88,16 @@ namespace ELRunning.Controllers
             {
                 return NotFound();
             }
+            ViewBag.ddlEventTypes = _context.EventTypes.ToList().OrderBy(x => x.TypeName);
             return View(activityEvent);
         }
 
-        // POST: ActivityEvents/Edit/5
+        // POST: Activities/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ActivityEventID,EventName,StartDate,EndDate,Distance,EventType")] ActivityEvent activityEvent)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ActivityEventID,EventName,StartDate,EndDate,Distance")] ActivityEvent activityEvent)
         {
             if (id != activityEvent.ActivityEventID)
             {
@@ -142,10 +124,11 @@ namespace ELRunning.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.ddlEventTypes = _context.EventTypes.ToList().OrderBy(x => x.TypeName);
             return View(activityEvent);
         }
 
-        // GET: ActivityEvents/Delete/5
+        // GET: Activities/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -163,7 +146,7 @@ namespace ELRunning.Controllers
             return View(activityEvent);
         }
 
-        // POST: ActivityEvents/Delete/5
+        // POST: Activities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)

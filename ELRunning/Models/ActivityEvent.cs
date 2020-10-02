@@ -2,18 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace ELRunning.Models
 {
     public class ActivityEvent
     {
         public Guid ActivityEventID { get; set; }
+        [Required]
+        [Display(Name = "Event Name", Prompt = "Your event name", Description = "Event Name")]
         public string EventName { get; set; }
+        [Required]
+        [Display(Name = "Start Date", Prompt = "The date your event becomes available", Description = "Start Date")]
         public DateTime StartDate { get; set; }
+        [Display(Name = "End Date", Prompt = "The date your event closes", Description = "End Date")]
         public DateTime? EndDate { get; set; }
         public int Distance { get; set; }
-        public virtual EventType EventType { get; set; }
-
+        [Required]
+        [Display(Prompt = "Enter the event description")]
+        public string Description { get; set; }
+        [Required]
+        [Display(Name = "Activity Type", Prompt = "The type of the event", Description = "Activity Type")]
+        public Guid EventTypeID { get; set; }
+        public EventType EventType { get; set; }
         public virtual ICollection<ActivityLog> Logs { get; set; }
     }
 

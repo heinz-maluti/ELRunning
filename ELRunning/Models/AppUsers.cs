@@ -9,22 +9,11 @@ namespace ELRunning.Models
     public class AppUser : IdentityUser
     {
         public DateTime DateOfBirth { get; set; }
+        public Guid CountryID { get; set; }
+        public Guid GenderID { get; set; }
         public Country Country { get; set; }
         public Gender Gender { get; set; }
 
         public virtual List<ActivityLog> Logs { get; set; }
-    }
-
-    public enum Country
-    {
-        ZA,
-        USA,
-        UK
-    }
-
-    public enum Gender
-    {
-        Male,
-        Female
     }
 }
