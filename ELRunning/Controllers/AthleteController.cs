@@ -20,9 +20,47 @@ namespace ELRunning.Controllers
         }
 
         // GET: Athlete
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string ViewType = "CURR")
         {
-            return View(await _context.ActivityLogs.ToListAsync());
+            List<ActivityEvent> AllEvents = await _context.ActivityEvents.ToListAsync();
+
+            switch(ViewType)
+            {
+                case "PREV":
+                    {
+                        //for FUTURE events
+                        AllEvents = AllEvents
+                            .OrderBy(x => x.StartDate)
+                            .Where(x => x.EndDate < DateTime.Now)
+                            .Take(5)
+                            .ToList();
+
+                        break;
+                    }
+                case "FUTR":
+                    {
+                        //for PAST events
+                        AllEvents = AllEvents
+                            .OrderBy(x => x.StartDate)
+                            .Where(x => x.StartDate > DateTime.Now)
+                            .Take(5)
+                            .ToList();
+                        break;
+                    }
+                default:
+                    {
+                        //for CURRENT events
+                        AllEvents = AllEvents
+                            .OrderBy(x => x.StartDate)
+                            .Where(x => x.StartDate < DateTime.Now)
+                            .Where(x => x.EndDate > DateTime.Now)
+                            .Take(5)
+                            .ToList();
+                        break;
+                    }
+            }
+
+            return View(AllEvents);
         }
 
         // GET: Athlete/Details/5

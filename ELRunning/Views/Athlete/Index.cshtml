@@ -1,22 +1,28 @@
-﻿@model IEnumerable<ELRunning.Models.ActivityLog>
+﻿@model IEnumerable<ELRunning.Models.ActivityEvent>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Events</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Index" asp-route-ViewType="PREV" class="btn btn-primary">Past Events</a>
+    @*<a asp-action="Index" asp-route-id="MINE" class="btn btn-primary">My Events</a>*@
+    <a asp-action="Index" asp-route-ViewType="CURR" class="btn btn-primary">Current Events</a>
+    <a asp-action="Index" asp-route-ViewType="FUTR" class="btn btn-primary">Coming Events</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TimeLogged)
+                @Html.DisplayNameFor(model => model.EventName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Units)
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
             </th>
             <th></th>
         </tr>
@@ -25,15 +31,17 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.TimeLogged)
+                @Html.DisplayFor(modelItem => item.EventName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Units)
+                @Html.DisplayFor(modelItem => item.StartDate)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ActivityLogID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ActivityLogID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ActivityLogID">Delete</a>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>                
+                <a asp-action="LogActivity" asp-route-id="@item.ActivityEventID" class="btn btn-dark">Log Activity</a>
+                <a asp-action="Details" asp-route-id="@item.ActivityEventID" class="btn btn-dark">View</a>
             </td>
         </tr>
 }
