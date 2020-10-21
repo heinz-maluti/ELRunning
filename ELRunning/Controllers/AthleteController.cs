@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ELRunning.Data;
 using ELRunning.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 
 namespace ELRunning.Controllers
 {
     public class AthleteController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private UserManager<AppUser> _userManager;
 
-        public AthleteController(ApplicationDbContext context)
+        public AthleteController(ApplicationDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Athlete
@@ -182,6 +186,44 @@ namespace ELRunning.Controllers
             _context.ActivityLogs.Remove(activityLog);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult LogActivity(Guid ActivityEventID)
+        {
+            ActivityEvent ActivityEvent = _context.ActivityEvents.Find(ActivityEventID);
+
+            if (ActivityEvent == null) return NotFound();
+
+            List<ActivityLog> Logs = _context.ActivityLogs
+                .Where(x => x.Event.ActivityEventID == ActivityEventID)
+                .ToList();
+
+            ActivityEvent.EventType = _context.EventTypes.Find(ActivityEvent.EventTypeID);
+
+            return View(ActivityEvent);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LogActivity(ActivityLog activityLog, IFormCollection fc)
+        {
+            if (ModelState.IsValid)
+            {
+                activityLog.ActivityLogID = Guid.NewGuid();
+                
+                string dist = fc["distance"];
+                activityLog.Units = Convert.ToInt32(dist);
+
+                string aeid = fc["ActivityEventID"];
+                activityLog.Event = _context.ActivityEvents.Find(new Guid(aeid));
+
+                AppUser user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                activityLog.User = user;
+
+                _context.Add(activityLog);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(activityLog);
         }
 
         private bool ActivityLogExists(Guid id)

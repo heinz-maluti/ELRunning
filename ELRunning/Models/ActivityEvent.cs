@@ -31,11 +31,17 @@ namespace ELRunning.Models
 
     public class ActivityLog
     {
+        public ActivityLog()
+        {
+            ActivityLogID = Guid.NewGuid();
+            TimeLogged = DateTime.Now;
+        }
+
         public Guid ActivityLogID { get; set; }
         public DateTime TimeLogged { get; set; }
         public int Units { get; set; }
         public virtual AppUser User { get; set;}
-        public virtual ActivityEvent Event { get; set; }
+        public virtual ActivityEvent Event { get; set; }        
     }
 
     public class EventType

@@ -1,0 +1,60 @@
+﻿@model ELRunning.Models.ActivityEvent
+
+@{
+    ViewData["Title"] = "LogActivity";
+}
+
+<h1>LogActivity</h1>
+
+<div>
+    <h4>ActivityEvent</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.EventName)
+        </dt>
+        <dd class="col-sm-3">
+            @Html.DisplayFor(model => model.EventName)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Distance)
+        </dt>
+        <dd class="col-sm-3">
+            @Html.DisplayFor(model => model.Distance)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd class="col-sm-3">
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd class="col-sm-3">
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+</div>
+
+<form asp-action="LogActivity">
+    <div>
+        <label class="col-sm-3 col-form-label">Distance (@Model.EventType.UnitType)</label>
+        <input name="distance" id="distance" class="form-control col-sm-3" />
+        <input asp-for="ActivityEventID" type="hidden" class="form-control" />
+    </div>
+
+    <div>
+        <div class="form-group">
+            <input type="submit" value="Log" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-primary">Back</a>
+        </div>
+    </div>
+</form>
+

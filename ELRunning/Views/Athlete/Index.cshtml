@@ -39,8 +39,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.EndDate)
             </td>
-            <td>                
-                <a asp-action="LogActivity" asp-route-id="@item.ActivityEventID" class="btn btn-dark">Log Activity</a>
+            <td>
+                @if ((DateTime.Now > item.StartDate) & (DateTime.Now < item.EndDate))
+                {
+                    <a asp-action="LogActivity" asp-route-ActivityEventID="@item.ActivityEventID" class="btn btn-primary">Log Activity</a>
+                }
                 <a asp-action="Details" asp-route-id="@item.ActivityEventID" class="btn btn-dark">View</a>
             </td>
         </tr>
