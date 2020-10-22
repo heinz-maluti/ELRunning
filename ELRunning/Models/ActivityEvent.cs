@@ -40,8 +40,14 @@ namespace ELRunning.Models
         public Guid ActivityLogID { get; set; }
         public DateTime TimeLogged { get; set; }
         public int Units { get; set; }
+        public Guid UserId { get; set; }
         public virtual AppUser User { get; set;}
-        public virtual ActivityEvent Event { get; set; }        
+        public virtual ActivityEvent Event { get; set; }
+
+        internal object Select(Func<object, object> p)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class EventType

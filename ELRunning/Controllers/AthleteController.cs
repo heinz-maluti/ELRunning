@@ -9,6 +9,7 @@ using ELRunning.Data;
 using ELRunning.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Immutable;
 
 namespace ELRunning.Controllers
 {
@@ -75,14 +76,23 @@ namespace ELRunning.Controllers
                 return NotFound();
             }
 
-            var activityLog = await _context.ActivityLogs
-                .FirstOrDefaultAsync(m => m.ActivityLogID == id);
-            if (activityLog == null)
+            ActivityEvent ae = await _context.ActivityEvents
+                    .Include(x => x.Logs)
+                        .ThenInclude(x => x.User)
+                    .Where(x => x.ActivityEventID == id)
+                    .SingleAsync();
+
+            if (ae == null)
             {
                 return NotFound();
             }
 
-            return View(activityLog);
+            foreach(ActivityLog al in ae.Logs)
+            {
+                al.User = _context.AppUsers.Find(al.UserId.ToString());
+            }
+
+            return View(ae);
         }
 
         // GET: Athlete/Create
@@ -190,13 +200,15 @@ namespace ELRunning.Controllers
 
         public IActionResult LogActivity(Guid ActivityEventID)
         {
-            ActivityEvent ActivityEvent = _context.ActivityEvents.Find(ActivityEventID);
+            ActivityEvent ActivityEvent = _context.ActivityEvents
+                .Include(x => x.Logs)
+                    .ThenInclude(x => x.User)
+                .Where( x => x.ActivityEventID == ActivityEventID).Single();
 
-            if (ActivityEvent == null) return NotFound();
-
-            List<ActivityLog> Logs = _context.ActivityLogs
-                .Where(x => x.Event.ActivityEventID == ActivityEventID)
-                .ToList();
+            if (ActivityEvent == null)
+            {
+                return NotFound();
+            }
 
             ActivityEvent.EventType = _context.EventTypes.Find(ActivityEvent.EventTypeID);
 

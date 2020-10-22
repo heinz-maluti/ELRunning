@@ -1,4 +1,4 @@
-﻿@model ELRunning.Models.ActivityLog
+﻿@model ELRunning.Models.ActivityEvent
 
 @{
     ViewData["Title"] = "Details";
@@ -7,24 +7,56 @@
 <h1>Details</h1>
 
 <div>
-    <h4>ActivityLog</h4>
+    <h4>ActivityEvent</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TimeLogged)
+            @Html.DisplayNameFor(model => model.EventName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TimeLogged)
+            @Html.DisplayFor(model => model.EventName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Units)
+            @Html.DisplayNameFor(model => model.StartDate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Units)
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Distance)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Distance)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EventType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EventType.EventTypeID)
         </dd>
     </dl>
 </div>
+
+<div> 
+    <h4>Logs</h4>
+    @foreach(ActivityLog al in Model.Logs.OrderBy(x => x.User.Email))
+    {
+        <p>@al.Units @al.TimeLogged @al.User.Email</p>   
+    }
+</div>
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ActivityLogID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-primary">Back</a>
 </div>

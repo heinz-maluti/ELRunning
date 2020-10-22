@@ -15,5 +15,6 @@ namespace ELRunning.Models
         public Gender Gender { get; set; }
 
         public virtual List<ActivityLog> Logs { get; set; }
+
     }
 }
