@@ -1,61 +1,29 @@
-﻿@model ELRunning.Models.ActivityEvent
+﻿@model ELRunning.Models.ActivityViewModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Overview</h1>
+
+<h3>Goal</h3>
+<h4>
+    @Model.Event.Distance @Model.Event.EventType.UnitType of @Model.Event.EventType.TypeName
+</h4>
 
 <div>
-    <h4>ActivityEvent</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EventName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EventName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Distance)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Distance)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EventType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EventType.EventTypeID)
-        </dd>
+        <dd>@Model.Event.EventName</dd>
+        <dt></dt>
     </dl>
 </div>
 
-<div> 
-    <h4>Logs</h4>
-    @foreach(ActivityLog al in Model.Logs.OrderBy(x => x.User.Email))
-    {
-        <p>@al.Units @al.TimeLogged @al.User.Email</p>   
-    }
-</div>
+<h3>Top 10</h3>
+@foreach (EventTotal et in Model.Totals.OrderByDescending( x => x.TotalUnits))
+{
+<div>@et.TotalUnits@Model.Event.EventType.UnitType @et.Email</div>
+}
 
 <div>
     <a asp-action="Index" class="btn btn-primary">Back</a>

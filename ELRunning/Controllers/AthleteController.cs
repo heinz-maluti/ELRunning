@@ -75,8 +75,10 @@ namespace ELRunning.Controllers
             {
                 return NotFound();
             }
+            ActivityViewModel avm = new ActivityViewModel();
 
             ActivityEvent ae = await _context.ActivityEvents
+                    .Include(x => x.EventType)
                     .Include(x => x.Logs)
                         .ThenInclude(x => x.User)
                     .Where(x => x.ActivityEventID == id)
@@ -86,13 +88,16 @@ namespace ELRunning.Controllers
             {
                 return NotFound();
             }
+            
+            avm.Event = ae;
 
-            foreach(ActivityLog al in ae.Logs)
+            foreach (ActivityLog al in ae.Logs)
             {
-                al.User = _context.AppUsers.Find(al.UserId.ToString());
+                EventTotal at = new EventTotal(al.User.Email, al.Units);
+                avm.AddTotal(at);
             }
 
-            return View(ae);
+            return View(avm);
         }
 
         // GET: Athlete/Create
