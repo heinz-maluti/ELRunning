@@ -36,6 +36,8 @@ namespace ELRunning.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            public Country Country { get; set; }
+            public Gender Gender { get; set; }
         }
 
         private async Task LoadAsync(AppUser user)
@@ -44,10 +46,12 @@ namespace ELRunning.Areas.Identity.Pages.Account.Manage
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
             Username = userName;
-
+            
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Country = user.Country,
+                Gender = user.Gender                
             };
         }
 
@@ -86,6 +90,12 @@ namespace ELRunning.Areas.Identity.Pages.Account.Manage
                     StatusMessage = "Unexpected error when trying to set phone number.";
                     return RedirectToPage();
                 }
+            }
+
+            if (user!=null)
+            {
+                user.Country = Input.Country;
+                user.Gender = Input.Gender;
             }
 
             await _signInManager.RefreshSignInAsync(user);

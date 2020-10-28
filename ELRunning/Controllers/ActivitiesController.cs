@@ -18,6 +18,7 @@ namespace ELRunning.Controllers
         public ActivitiesController(ApplicationDbContext context)
         {
             _context = context;
+            SeedData();
         }
 
         // GET: Activities
@@ -160,6 +161,38 @@ namespace ELRunning.Controllers
         private bool ActivityEventExists(Guid id)
         {
             return _context.ActivityEvents.Any(e => e.ActivityEventID == id);
+        }
+
+        public bool SeedData()
+        {
+            bool change = false;
+
+            if (_context.Countries.Count()==0)
+            {
+                List<Country> countries = new List<Country>();
+                countries.Add(new Country(new Guid("12C6E74B-41D9-4056-9D75-28C36C06CE45"), "USA"));
+                countries.Add(new Country(new Guid("BEAF367C-15D5-4C04-A801-871E28E33086"), "ZA"));
+
+                _context.Countries.AddRange(countries);
+                change = true;
+            }
+
+            if (_context.Gender.Count()==0)
+            {
+                List<Gender> genders = new List<Gender>();
+                genders.Add(new Gender(new Guid("FF735D70-90D4-4029-82D5-924C0FC58FA0"), "Male"));
+                genders.Add(new Gender(new Guid("31F03DDB-CAEA-4230-A02A-F8E7B576FFBF"),"Female"));
+
+                _context.Gender.AddRange(genders);
+                change = true;
+            }
+
+            if (change)
+            {
+                _context.SaveChanges();
+            }
+
+            return change;
         }
     }
 }

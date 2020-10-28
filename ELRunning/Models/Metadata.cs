@@ -9,6 +9,17 @@ namespace ELRunning.Models
     {
         public Guid CountryID { get; set; }
         public string CountryName { get; set; }
+
+        public Country()
+        {
+            CountryID = Guid.NewGuid();
+        }
+
+        public Country(Guid countryID, string countryName)
+        {
+            CountryID = countryID;
+            CountryName = countryName;
+        }
     }
 
     public class Gender
@@ -16,5 +27,15 @@ namespace ELRunning.Models
         public Guid GenderID { get; set; }
         public string GenderName { get; set; }
 
+        public Gender()
+        {
+            GenderID = Guid.NewGuid();
+        }
+
+        public Gender(Guid genderID, string genderName)
+        {
+            GenderID = genderID;
+            GenderName = genderName;
+        }
     }
 }
