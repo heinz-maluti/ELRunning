@@ -93,7 +93,7 @@ namespace ELRunning.Controllers
 
             foreach (ActivityLog al in ae.Logs)
             {
-                EventTotal at = new EventTotal(al.User.Email, al.Units);
+                EventTotal at = new EventTotal(al.User.UserName, al.Units);
                 avm.AddTotal(at);
             }
 
@@ -242,6 +242,15 @@ namespace ELRunning.Controllers
             }
             return View(activityLog);
         }
+
+        /*
+        public async Task<JsonResult> GetGendersToAJAX()
+        {
+            List<Gender> genders = await _context.Gender.ToListAsync();
+
+            return Json(genders);
+        }
+        */
 
         private bool ActivityLogExists(Guid id)
         {

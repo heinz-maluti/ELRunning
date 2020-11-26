@@ -38,21 +38,24 @@ namespace ELRunning.Areas.Identity.Pages.Account.Manage
             public string PhoneNumber { get; set; }
             public Country Country { get; set; }
             public Gender Gender { get; set; }
+            public string UserName { get; set; }
         }
 
         private async Task LoadAsync(AppUser user)
         {
-            var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
-            Username = userName;
+            //Username = user.UserName;
             
             Input = new InputModel
             {
+                UserName = user.UserName,
                 PhoneNumber = phoneNumber,
                 Country = user.Country,
                 Gender = user.Gender                
             };
+
+            //Username = Input.UserName;
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -94,6 +97,7 @@ namespace ELRunning.Areas.Identity.Pages.Account.Manage
 
             if (user!=null)
             {
+                user.UserName = Input.UserName;
                 user.Country = Input.Country;
                 user.Gender = Input.Gender;
             }

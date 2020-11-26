@@ -18,8 +18,8 @@ namespace ELRunning.Data
         public DbSet<ActivityEvent> ActivityEvents {get;set;}
         public DbSet<EventType> EventTypes { get; set; }
         public DbSet<ActivityLog> ActivityLogs { get; set; }
-        public DbSet<Gender> Gender { get; set; }
-        public DbSet<Country> Countries { get; set; }
+        //public DbSet<Gender> Gender { get; set; }
+        //public DbSet<Country> Countries { get; set; }
         public DbSet<ELRunning.Models.ActivityViewModel> ActivityViewModel { get; set; }
     }
 }

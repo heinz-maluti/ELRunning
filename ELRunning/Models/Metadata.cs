@@ -5,6 +5,20 @@ using System.Threading.Tasks;
 
 namespace ELRunning.Models
 {
+
+    public enum Country
+    {
+        ZA,
+        UK,
+        USA
+    }
+
+    public enum Gender
+    {
+        Male,
+        Female
+    }
+    /*
     public class Country
     {
         public Guid CountryID { get; set; }
@@ -38,4 +52,5 @@ namespace ELRunning.Models
             GenderName = genderName;
         }
     }
+    */
 }

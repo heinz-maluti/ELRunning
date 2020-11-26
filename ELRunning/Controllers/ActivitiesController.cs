@@ -167,6 +167,7 @@ namespace ELRunning.Controllers
         {
             bool change = false;
 
+            /*
             if (_context.Countries.Count()==0)
             {
                 List<Country> countries = new List<Country>();
@@ -191,7 +192,7 @@ namespace ELRunning.Controllers
             {
                 _context.SaveChanges();
             }
-
+            */
             return change;
         }
     }
