@@ -100,6 +100,8 @@ namespace ELRunning.Areas.Identity.Pages.Account.Manage
                 user.UserName = Input.UserName;
                 user.Country = Input.Country;
                 user.Gender = Input.Gender;
+
+                await _userManager.UpdateAsync(user);
             }
 
             await _signInManager.RefreshSignInAsync(user);
