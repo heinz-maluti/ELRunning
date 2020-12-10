@@ -233,7 +233,8 @@ namespace ELRunning.Controllers
                 string aeid = fc["ActivityEventID"];
                 activityLog.Event = _context.ActivityEvents.Find(new Guid(aeid));
 
-                AppUser user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+                if (user == null) return NotFound("User Issue");
                 activityLog.User = user;
 
                 _context.Add(activityLog);
