@@ -4,10 +4,10 @@
     ViewData["Title"] = "LogActivity";
 }
 
-<h1>LogActivity</h1>
+<h1>Log Activity</h1>
 
 <div>
-    <h4>ActivityEvent</h4>
+    <h4>Activity Event</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-3">
@@ -20,7 +20,7 @@
             @Html.DisplayNameFor(model => model.Distance)
         </dt>
         <dd class="col-sm-3">
-            @Html.DisplayFor(model => model.Distance)
+            @Html.DisplayFor(model => model.Distance) @Model.EventType.UnitType
         </dd>
         <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.StartDate)
@@ -34,13 +34,45 @@
         <dd class="col-sm-3">
             @Html.DisplayFor(model => model.EndDate)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-3">
             @Html.DisplayFor(model => model.Description)
         </dd>
     </dl>
+
+    <dl class="row">
+
+        @if (Model.Logs.Count > 0)
+        {
+            <dt class="col-sm-3">
+                Time of Log
+            </dt>
+            <dt class="col-sm-9">
+               Distance
+            </dt>
+
+            @foreach (var log in Model.Logs)
+            {
+                <dd class="col-sm-3">
+                    @log.TimeLogged
+                </dd>
+                <dd class="col-sm-9">
+                    @log.Units @Model.EventType.UnitType
+                </dd>
+            }
+        }
+
+        <dt class="col-sm-3">
+            Total Distance Logged
+        </dt>
+        <dd class="col-sm-9">
+            @Model.Logs.Sum(x => x.Units) @Model.EventType.UnitType
+        </dd>
+
+    </dl>
+
 </div>
 
 <form asp-action="LogActivity">
@@ -51,7 +83,7 @@
     </div>
 
     <div>
-        <div class="form-group">
+        <div class="form-group pt-2">
             <input type="submit" value="Log" class="btn btn-primary" />
             <a asp-action="Index" class="btn btn-primary">Back</a>
         </div>
