@@ -44,23 +44,27 @@
 
     <dl class="row">
 
-        @if (Model.Logs.Count > 0)
+        @{ var userLogs = Model.Logs.Where(x => x.User.UserName == User.Identity.Name); }
+        @if (userLogs.Count() > 0)
         {
             <dt class="col-sm-3">
                 Time of Log
             </dt>
             <dt class="col-sm-9">
-               Distance
+                Distance
             </dt>
 
-            @foreach (var log in Model.Logs)
+            @foreach (var log in userLogs)
             {
-                <dd class="col-sm-3">
-                    @log.TimeLogged
-                </dd>
-                <dd class="col-sm-9">
-                    @log.Units @Model.EventType.UnitType
-                </dd>
+                if (log.User.UserName == User.Identity.Name)
+                {
+                    <dd class="col-sm-3">
+                        @log.TimeLogged
+                    </dd>
+                    <dd class="col-sm-9">
+                        @log.Units @Model.EventType.UnitType
+                    </dd>
+                }
             }
         }
 
@@ -68,7 +72,7 @@
             Total Distance Logged
         </dt>
         <dd class="col-sm-9">
-            @Model.Logs.Sum(x => x.Units) @Model.EventType.UnitType
+            @userLogs.Sum(x => x.Units) @Model.EventType.UnitType
         </dd>
 
     </dl>
