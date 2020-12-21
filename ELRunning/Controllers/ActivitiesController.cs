@@ -36,8 +36,13 @@ namespace ELRunning.Controllers
             }
 
             var activityEvent = await _context.ActivityEvents
+                .Include(x => x.Logs)
+                    .ThenInclude(x => x.User)
                 .FirstOrDefaultAsync(m => m.ActivityEventID == id);
+            
             activityEvent.EventType = _context.EventTypes.Find(activityEvent.EventTypeID);
+
+            
             if (activityEvent == null)
             {
                 return NotFound();
@@ -89,7 +94,17 @@ namespace ELRunning.Controllers
             {
                 return NotFound();
             }
-            ViewBag.ddlEventTypes = _context.EventTypes.ToList().OrderBy(x => x.TypeName);
+            ViewBag.EventTypeID = _context.EventTypes.Select(x => new SelectListItem { Value = x.EventTypeID.ToString(), Text = x.TypeName }).ToList().OrderBy(x => x.Text); //.ToList();//.OrderBy(x => x.TypeName);
+
+            /*
+             * Options = context.Authors.Select(a => 
+                                  new SelectListItem 
+                                  {
+                                      Value = a.AuthorId.ToString(),
+                                      Text =  a.Name
+                                  }).ToList();
+             */
+
             return View(activityEvent);
         }
 
@@ -98,7 +113,8 @@ namespace ELRunning.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ActivityEventID,EventName,StartDate,EndDate,Distance")] ActivityEvent activityEvent)
+        //[Bind("ActivityEventID,EventName,StartDate,EndDate,Distance")]
+        public async Task<IActionResult> Edit(Guid id, ActivityEvent activityEvent,IFormCollection fc)
         {
             if (id != activityEvent.ActivityEventID)
             {
@@ -125,7 +141,7 @@ namespace ELRunning.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.ddlEventTypes = _context.EventTypes.ToList().OrderBy(x => x.TypeName);
+            ViewBag.EventTypeID = _context.EventTypes.ToList().OrderBy(x => x.TypeName);
             return View(activityEvent);
         }
 

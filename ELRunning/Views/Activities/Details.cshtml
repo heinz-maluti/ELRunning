@@ -7,6 +7,11 @@
 <h1>Details</h1>
 
 <div>
+    <a asp-action="Edit" asp-route-id="@Model.ActivityEventID" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-primary">Back</a>
+</div>
+
+<div>
     <h4>ActivityEvent</h4>
     <hr />
     <dl class="row">
@@ -49,7 +54,38 @@
 
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ActivityEventID" class="btn btn-primary">Edit</a>
-    <a asp-action="Index" class="btn btn-primary">Back</a>
-</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Logs.First().User.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Logs.First().Units)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Logs.First().TimeLogged)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var log in Model.Logs)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.Logs.First().User.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Logs.First().Units)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Logs.First().TimeLogged)
+            </td>
+            <td>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
