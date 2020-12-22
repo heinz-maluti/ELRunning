@@ -50,17 +50,18 @@
             <dt class="col-sm-3">
                 Time of Log
             </dt>
-            <dt class="col-sm-9">
+            <dd class="col-sm-9">
                 Distance
-            </dt>
+            </dd>
+
 
             @foreach (var log in userLogs)
             {
                 if (log.User.UserName == User.Identity.Name)
                 {
-                    <dd class="col-sm-3">
+                    <dt class="col-sm-3">
                         @log.TimeLogged
-                    </dd>
+                    </dt>
                     <dd class="col-sm-9">
                         @log.Units @Model.EventType.UnitType
                     </dd>
@@ -73,8 +74,7 @@
         </dt>
         <dd class="col-sm-9">
             @userLogs.Sum(x => x.Units) @Model.EventType.UnitType
-        </dd>
-
+        </dd>        
     </dl>
 
 </div>
@@ -84,6 +84,11 @@
         <label class="col-sm-3 col-form-label">Distance (@Model.EventType.UnitType)</label>
         <input name="distance" id="distance" class="form-control col-sm-3" />
         <input asp-for="ActivityEventID" type="hidden" class="form-control" />
+    </div>
+
+    <div>
+        <label class="col-sm-3 col-form-label">Duration (HH:MM:SS,MS)</label>
+        <input name="duration" id="duration" type="time" step="0.1" class="form-control col-sm-3" />        
     </div>
 
     <div>

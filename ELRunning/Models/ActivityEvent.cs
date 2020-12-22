@@ -38,7 +38,8 @@ namespace ELRunning.Models
         }
 
         public Guid ActivityLogID { get; set; }
-        public DateTime TimeLogged { get; set; }
+        public DateTime TimeLogged { get; set; }        
+        public TimeSpan Duration { get; set; }
         public int Units { get; set; }
         public Guid UserId { get; set; }
         public virtual AppUser User { get; set;}

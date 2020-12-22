@@ -230,6 +230,21 @@ namespace ELRunning.Controllers
                 string dist = fc["distance"];
                 activityLog.Units = Convert.ToInt32(dist);
 
+                string duration = fc["duration"];
+
+                int h, m, s, ms = 0;
+
+                h = Convert.ToInt32(duration.Split(':')[0]);
+                m = Convert.ToInt32(duration.Split(':')[1]);
+                s = Convert.ToInt32(duration.Split(':')[2]);
+                /*if (duration.Split(':')[3])!=null)
+                {
+                }
+                ms = Convert.ToInt32(duration.Split(':')[3]);
+                */
+                TimeSpan ts = new TimeSpan(h, m, s, ms);
+                activityLog.Duration = ts;
+
                 string aeid = fc["ActivityEventID"];
                 activityLog.Event = _context.ActivityEvents.Find(new Guid(aeid));
 
