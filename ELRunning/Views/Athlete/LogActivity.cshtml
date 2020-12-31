@@ -50,20 +50,26 @@
             <dt class="col-sm-3">
                 Time of Log
             </dt>
-            <dd class="col-sm-9">
+            <dt class="col-sm-9">
                 Distance
-            </dd>
+            </dt>
+            <dt class="col-sm-9">
+                Duration
+            </dt>
 
 
             @foreach (var log in userLogs)
             {
                 if (log.User.UserName == User.Identity.Name)
                 {
-                    <dt class="col-sm-3">
+                    <dd class="col-sm-3">
                         @log.TimeLogged
-                    </dt>
+                    </dd>
                     <dd class="col-sm-9">
                         @log.Units @Model.EventType.UnitType
+                    </dd>
+                    <dd class="col-sm-9">
+                        @log.Duration
                     </dd>
                 }
             }
@@ -74,7 +80,7 @@
         </dt>
         <dd class="col-sm-9">
             @userLogs.Sum(x => x.Units) @Model.EventType.UnitType
-        </dd>        
+        </dd>
     </dl>
 
 </div>
@@ -87,8 +93,8 @@
     </div>
 
     <div>
-        <label class="col-sm-3 col-form-label">Duration (HH:MM:SS,MS)</label>
-        <input name="duration" id="duration" type="time" step="0.1" class="form-control col-sm-3" />        
+        <label class="col-sm-3 col-form-label">Duration (HH : MM : SS : MS)</label>
+        <input name="duration" id="duration" type="text" hour="70" class="form-control col-sm-3" />        
     </div>
 
     <div>
