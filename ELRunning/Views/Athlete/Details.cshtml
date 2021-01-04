@@ -22,7 +22,7 @@
 <h3>Top 10</h3>
 @foreach (EventTotal et in Model.Totals.OrderByDescending( x => x.TotalUnits))
 {
-<div>@et.TotalUnits@Model.Event.EventType.UnitType @et.Email</div>
+<div>@et.TotalUnits@Model.Event.EventType.UnitType @et.Duration @et.Email</div>
 }
 
 <div>

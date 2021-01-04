@@ -38,7 +38,9 @@ namespace ELRunning.Models
         }
 
         public Guid ActivityLogID { get; set; }
-        public DateTime TimeLogged { get; set; }        
+        public DateTime TimeLogged { get; set; }
+        [DisplayFormat(DataFormatString = "{HH:mm:ss:ms}")]
+        //[DataType(TimeSpan)]
         public TimeSpan Duration { get; set; }
         public int Units { get; set; }
         public Guid UserId { get; set; }

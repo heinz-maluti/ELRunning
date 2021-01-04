@@ -92,9 +92,13 @@
         <input asp-for="ActivityEventID" type="hidden" class="form-control" />
     </div>
 
-    <div>
-        <label class="col-sm-3 col-form-label">Duration (HH : MM : SS : MS)</label>
-        <input name="duration" id="duration" type="text" hour="70" class="form-control col-sm-3" />        
+    <div class="row">
+        <label class="col-sm-12 col-form-label">Duration (HH : MM : SS : MS)</label>
+        @*[DisplayFormat(DataFormatString = "{HH:mm:ss:ms}")]*@
+        <input name="hours" id="hours" value="0" class="form-control col-sm-1" />:
+        <input name="minutes" id="minutes" value="0" class="form-control col-sm-1" />:
+        <input name="seconds" id="seconds" value="0" class="form-control col-sm-1" />:
+        <input name="mseconds" id="mseconds" value="0" class="form-control col-sm-1" />
     </div>
 
     <div>

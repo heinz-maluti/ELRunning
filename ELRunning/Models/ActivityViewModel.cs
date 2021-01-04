@@ -11,6 +11,7 @@ namespace ELRunning.Models
         public ActivityViewModel()
         {
             Totals = new List<EventTotal>();
+            Duration = new List<TimeSpan>();
             ID = 0;
         }
 
@@ -21,6 +22,7 @@ namespace ELRunning.Models
             if (et!=null)
             {
                 et.TotalUnits += at.TotalUnits;
+                et.Duration = et.Duration.Add(at.Duration);
             }
             else
             {
@@ -31,6 +33,7 @@ namespace ELRunning.Models
 
         public virtual ActivityEvent Event { get; set; }
         public List<EventTotal> Totals { get; set; }
+        public List<TimeSpan> Duration { get; set; }
     }
 
     public class EventTotal
@@ -38,16 +41,18 @@ namespace ELRunning.Models
         public int ID { get; set; }
         public string Email { get; set; }
         public int TotalUnits { get; set; }
+        public TimeSpan Duration { get; set; }
 
         public EventTotal()
         {
 
         }
 
-        public EventTotal(string email, int unit)
+        public EventTotal(string email, int unit, TimeSpan duration)
         {
             Email = email;
             TotalUnits = unit;
+            Duration = duration;
         }
     }
 }
