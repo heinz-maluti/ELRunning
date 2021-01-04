@@ -11,7 +11,7 @@ namespace ELRunning.Models
         public ActivityViewModel()
         {
             Totals = new List<EventTotal>();
-            Duration = new List<TimeSpan>();
+            //Duration = new List<TimeSpan>();
             ID = 0;
         }
 
@@ -33,7 +33,7 @@ namespace ELRunning.Models
 
         public virtual ActivityEvent Event { get; set; }
         public List<EventTotal> Totals { get; set; }
-        public List<TimeSpan> Duration { get; set; }
+        //public List<TimeSpan> Duration { get; set; }
     }
 
     public class EventTotal
